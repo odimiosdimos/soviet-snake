@@ -59,11 +59,6 @@ class Train {
     }
 
     draw(ctx){
-        /*ctx.fillStyle = "red"
-        ctx.fillRect(
-            this.tail[0].x*this.tileSize,
-            this.tail[0].y*this.tileSize,
-            this.tileSize,this.tileSize)*/
         this.sprites.draw(RIGHT,ctx,
             this.tail[0].x*this.tileSize,this.tail[0].y*this.tileSize,
             this.tileSize,this.tileSize);
