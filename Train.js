@@ -1,9 +1,23 @@
+class Animation{
+    constructor(frames, framesDuration){
+        this.frames = frames;
+        this.framesDuration = framesDuration;
+    }
+
+    resolveFrame(step){
+        console.log(step)
+        const frameIndex = Math.floor( 
+            (step / this.framesDuration) % this.frames.length );
+        return this.frames[frameIndex];
+    }
+
+}
+
 class Train {
 
     constructor(x,y,tileSize,sprites){
         this.sprites = sprites;
         this.pos = new Vec2(x,y); //index
-        this.speed = 100;
         this.speed = new Vec2(0,0)
         this.tileSize=tileSize
 
@@ -13,6 +27,14 @@ class Train {
         this.tail[0] = {
             x: this.pos.x , y: this.pos.y
         };
+
+        this.framesRight = new Animation([RIGHT,RIGHT2],3);
+        this.framesLeft = new Animation([LEFT, LEFT2],3);
+        this.framesUp = new Animation([UP, UP2],3);
+        this.framesDown = new Animation([DOWN, DOWN2],3);
+        this.frameSteps=0; //never zero again
+        this.frame=null;
+        
     }
 
     setDir(dir){
@@ -56,10 +78,32 @@ class Train {
         };
 
         this.selfCollision() 
+
+        if (this.speed.x === 0 && this.speed.y === 0){
+            this.frameSteps=0;
+        } else {
+            this.frameSteps++;
+        }
+    }
+
+
+    chooseFrame(){
+        //also could be map instead of ifs, for ectra speed
+        if (this.speed.x==1){
+            return this.framesRight.resolveFrame(this.frameSteps)
+        } else if (this.speed.x==-1){
+            return this.framesLeft.resolveFrame(this.frameSteps);
+        } else if(this.speed.y==-1){
+            return this.framesUp.resolveFrame(this.frameSteps);
+        } else if(this.speed.y==1){
+            return this.framesDown.resolveFrame(this.frameSteps);
+        }
+
+        return this.framesRight.resolveFrame(this.frameSteps);
     }
 
     draw(ctx){
-        this.sprites.draw(RIGHT,ctx,
+        this.sprites.draw(this.chooseFrame(),ctx,
             this.tail[0].x*this.tileSize,this.tail[0].y*this.tileSize,
             this.tileSize,this.tileSize);
 

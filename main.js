@@ -18,6 +18,7 @@ loadEntitiesSprites(url).then( Sprites => {
     const myGrid = new Grid(plegma1);
     const train = new Train(0,0,tileSize,sprites);
     const react = new Reactonary(tileSize);
+    updateGrid(train, myGrid, plegma1);
     react.pickLocation(rows,cols,myGrid)
     controllersSetUp(train,canvas,tileSize);
 

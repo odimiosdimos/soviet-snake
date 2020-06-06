@@ -3,4 +3,8 @@
 - reactionaries: rich guy, fascist, kulak, white guard, czar..
 - there could be moving reactonaries u have to catch
 
+- the timer, should have more frames than the speed, to prosomoiowsh the movement 
+from squeare to squeare, without being possible to change direction 
+maybe 2 deltaTime, one for frames, and one for every square movement
+
 - maybe create tracks!
