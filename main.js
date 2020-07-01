@@ -9,7 +9,7 @@ canvas.width = rows*tileSize+100;
 canvas.height = cols*tileSize+200;
 canvas.style.backgroundColor = "rgb(207, 300, 166)";
 
-const url="images/Train_tiles.png";
+const url="images/entities_tiles.png";
 
 loadEntitiesSprites(url).then( Sprites => {
 
@@ -17,13 +17,14 @@ loadEntitiesSprites(url).then( Sprites => {
 
     const myGrid = new Grid(plegma1);
     const train = new Train(0,0,tileSize,sprites);
-    const react = new Reactonary(tileSize);
+    const react = new Reactonary(tileSize,sprites);
     updateGrid(train, myGrid, plegma1);
     react.pickLocation(rows,cols,myGrid)
     controllersSetUp(train,canvas,tileSize);
 
     let update = function update(){
         train.update(rows,cols)
+        react.update()
         updateGrid(train, myGrid, plegma1)
         if(train.eats(react)){
             react.pickLocation(rows,cols,myGrid)
@@ -40,10 +41,25 @@ loadEntitiesSprites(url).then( Sprites => {
 } )
 
 
+
 function updateGrid(train, grid,originalPlegma){
     grid.plegma = grid.copy2dArray(originalPlegma)
     train.tail.forEach( part => {
         grid.set(part.x, part.y, 2)
     } );
 }
+
+window.addEventListener( 'click', () => 
+ {
+    const audioContext = new AudioContext();
+    const loadAudio = createAudioLoader(audioContext);
+    loadAudio('/audio/sound2.mp3')
+    .then(buffer => {
+        console.log(buffer)
+        const source = audioContext.createBufferSource();
+        source.connect(audioContext.destination);
+        source.buffer = buffer;
+        source.start(0)
+    })
+ }) ;
 

@@ -8,17 +8,35 @@ function loadImage(url){
     })
 }
 
+function giveValue(){
+    let counter=-1;
+
+    return function values(){
+        counter++;
+        return counter;
+    }
+
+}
+
+const value = giveValue();
+
 const tilesize=32;
 
 //maybe give values with a function with a counter for easier.
-const LEFT=1;
-const LEFT2=2;
-const RIGHT=3;
-const RIGHT2=4;
-const UP=5;
-const UP2=6;
-const DOWN=7;
-const DOWN2=8;
+const LEFT= value() ;
+const LEFT2= value() ;
+const RIGHT= value();
+const RIGHT2= value();
+const UP= value();
+const UP2= value();
+const DOWN= value();
+const DOWN2= value();
+
+const CAPITALIST = value();
+const CAPITALIST2 = value();
+
+console.log("C" + CAPITALIST2);
+console.log("C" + CAPITALIST);
 
 function setUpEntitiesSprites(image){
     const entitiesSprites = new SpriteSheet(image,tilesize);
@@ -33,6 +51,9 @@ function setUpEntitiesSprites(image){
 
     entitiesSprites.define(DOWN,2*tileSize,0,tilesize,tilesize,false,true);
     entitiesSprites.define(DOWN2,3*tileSize,0,tilesize,tilesize,false,true);
+
+    entitiesSprites.define(CAPITALIST,0,tilesize,tilesize,tilesize);
+    entitiesSprites.define(CAPITALIST2,tilesize,tilesize,tilesize,tilesize);
 
     return entitiesSprites;
 }

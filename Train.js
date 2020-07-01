@@ -1,17 +1,4 @@
-class Animation{
-    constructor(frames, framesDuration){
-        this.frames = frames;
-        this.framesDuration = framesDuration;
-    }
 
-    resolveFrame(step){
-        console.log(step)
-        const frameIndex = Math.floor( 
-            (step / this.framesDuration) % this.frames.length );
-        return this.frames[frameIndex];
-    }
-
-}
 
 class Train {
 
@@ -33,7 +20,6 @@ class Train {
         this.framesUp = new Animation([UP, UP2],3);
         this.framesDown = new Animation([DOWN, DOWN2],3);
         this.frameSteps=0; //never zero again
-        this.frame=null;
         
     }
 
@@ -62,6 +48,8 @@ class Train {
             let dir  = this.speedToBeAssignted.pop()
             this.speed.x = dir.x;
             this.speed.y = dir.y;
+            const audioContext = new AudioContext();
+        
         }
 
         // [front(0),1,2,3,4..]
@@ -87,23 +75,24 @@ class Train {
     }
 
 
-    chooseFrame(){
+    chooseFrame(steps){
         //also could be map instead of ifs, for ectra speed
         if (this.speed.x==1){
-            return this.framesRight.resolveFrame(this.frameSteps)
+            return this.framesRight.resolveFrame(steps)
         } else if (this.speed.x==-1){
-            return this.framesLeft.resolveFrame(this.frameSteps);
+            return this.framesLeft.resolveFrame(steps);
         } else if(this.speed.y==-1){
-            return this.framesUp.resolveFrame(this.frameSteps);
+            return this.framesUp.resolveFrame(steps);
         } else if(this.speed.y==1){
-            return this.framesDown.resolveFrame(this.frameSteps);
+            return this.framesDown.resolveFrame(steps);
         }
 
-        return this.framesRight.resolveFrame(this.frameSteps);
+        
+        return this.framesRight.resolveFrame(steps);
     }
 
     draw(ctx){
-        this.sprites.draw(this.chooseFrame(),ctx,
+        this.sprites.draw(this.chooseFrame(this.frameSteps),ctx,
             this.tail[0].x*this.tileSize,this.tail[0].y*this.tileSize,
             this.tileSize,this.tileSize);
 
