@@ -1,11 +1,12 @@
 
 
+
 class Train {
 
     constructor(x,y,tileSize,sprites){
         this.sprites = sprites;
         this.pos = new Vec2(x,y); //index
-        this.speed = new Vec2(0,0)
+        this.speed = new Vec2(1,0)
         this.tileSize=tileSize
 
         this.speedToBeAssignted=[]; //stores moves already assignt
@@ -44,12 +45,12 @@ class Train {
 
     update(){
 
+        
+
         if (this.speedToBeAssignted.length>0){
             let dir  = this.speedToBeAssignted.pop()
             this.speed.x = dir.x;
-            this.speed.y = dir.y;
-            const audioContext = new AudioContext();
-        
+            this.speed.y = dir.y;        
         }
 
         // [front(0),1,2,3,4..]
@@ -114,11 +115,12 @@ class Train {
     
     }
 
-    eats(entity){
+    eats(entity,audioBoard){
         if (this.pos.equals(entity.pos)){
             this.tail.push({
                 x: this.pos.x - this.speed.x , y: this.pos.y - this.speed.y
             })
+            audioBoard.playAudio('eat')
             return true;
         }
     }

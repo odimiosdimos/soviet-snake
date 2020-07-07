@@ -35,9 +35,7 @@ class Reactonary {
     }
 
     draw(ctx){
-        /*ctx.fillStyle = "blue"
-        ctx.fillRect(this.pos.x*this.tileSize,this.pos.y*this.tileSize,
-            this.tileSize,this.tileSize)*/
+        //u should take care ig not existing (win )
         this.sprites.draw( this.chooseFrame(this.frameSteps),
             ctx,
             this.pos.x*this.tileSize,this.pos.y*this.tileSize,
