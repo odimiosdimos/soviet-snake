@@ -1,13 +1,12 @@
+class Train extends Entity {
 
-
-
-class Train {
-
-    constructor(x,y,tileSize,sprites){
-        this.sprites = sprites;
+    constructor(x,y,level){
+        super()
+        this.audioBoard = level.audioBoard;
+        this.sprites = level.sprites;
         this.pos = new Vec2(x,y); //index
         this.speed = new Vec2(1,0)
-        this.tileSize=tileSize
+        this.tileSize= level.tileSize
 
         this.speedToBeAssignted=[]; //stores moves already assignt
 
@@ -21,6 +20,8 @@ class Train {
         this.framesUp = new Animation([UP, UP2],3);
         this.framesDown = new Animation([DOWN, DOWN2],3);
         this.frameSteps=0; //never zero again
+
+        this.score = 0;
         
     }
 
@@ -44,19 +45,23 @@ class Train {
 
 
     update(){
-
-        
-
+        super.update()
         if (this.speedToBeAssignted.length>0){
             let dir  = this.speedToBeAssignted.pop()
+
+            if (dir.x != this.speed.x || dir.y != this.speed.y){
+                this.audioBoard.playAudio('turn')  
+            }
+
             this.speed.x = dir.x;
-            this.speed.y = dir.y;        
+            this.speed.y = dir.y;
+                  
         }
 
         // [front(0),1,2,3,4..]
         this.pos.x+=this.speed.x;
         this.pos.y+=this.speed.y;
-        collidesWithEdges(this,rows,cols)
+        collidesWithEdges(this,ROWS,COLS)
     
         for (let i=this.tail.length-1;i>0;i--){
             this.tail[i]=this.tail[i-1];
@@ -115,13 +120,20 @@ class Train {
     
     }
 
-    eats(entity,audioBoard){
-        if (this.pos.equals(entity.pos)){
-            this.tail.push({
-                x: this.pos.x - this.speed.x , y: this.pos.y - this.speed.y
-            })
-            audioBoard.playAudio('eat')
-            return true;
+    eats(entity){
+        this.tail.push({
+            x: this.pos.x - this.speed.x , y: this.pos.y - this.speed.y
+        })
+        this.audioBoard.playAudio('eat')
+        this.audioBoard.playAudio('eat_')
+    }
+
+
+    collides(entity){
+        console.log(" Train collided with "+ entity.constructor.name)
+        if ( entity instanceof Reactonary && !entity.killable.dead ) {
+            this.eats(entity);
+            this.score += 100;
         }
     }
 
@@ -129,6 +141,7 @@ class Train {
         for (let i = 3;i<this.tail.length;i++){
             if (this.pos.x === this.tail[i].x && this.pos.y === this.tail[i].y ){
                 this.tail.length=1;
+                this.score=0;
             }
         }
     }

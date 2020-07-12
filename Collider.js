@@ -18,3 +18,5 @@ function collidesWithEdges(entity,rows,cols){
 
 }
 
+//collides with obstacles of Map
+

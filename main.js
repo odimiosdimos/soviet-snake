@@ -1,84 +1,81 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext('2d');
+class Level {
 
-const tileSize = 32;
-const rows = 10;
-const cols = 10;
-
-canvas.width = rows*tileSize+100;
-canvas.height = cols*tileSize+200;
-canvas.style.backgroundColor = "rgb(207, 300, 166)";
-
-ctx.font = "30px Arial";
-ctx.fillText("CLICK TO PLAY", 10, 50);
-
-const url="images/entities_tiles.png";
-
-const eatSoundUrl = '/audio/stallin.ogg';
-
-
-class AudioBoard {
-
-    constructor(context){
-        this.context = context;
-
-        this.buffers = new Map();
+    constructor(tileSize,rows,cols,grid,sprites,audioBoard){
+        this.entities = [];
+        this.tileSize = tileSize;
+        this.rows = rows;
+        this.cols = cols;
+        this.grid = grid;
+        this.sprites = sprites;
+        this.audioBoard = audioBoard;
 
     }
 
-    addAudio(name, buffer){
-        this.buffers.set(name, buffer)
+    update(){
+        this.updateEntities()
     }
 
-    playAudio(name){
-        const source = this.context.createBufferSource();
-        source.connect(this.context.destination);
-        source.buffer = this.buffers.get(name)
-        source.start(0)
+    draw(context){
+        this.drawEntities(context)
     }
+
+    updateEntities(){
+        this.entities.forEach(entity => {
+            entity.update()
+        })
+
+    }
+
+    drawEntities(context){
+        this.entities.forEach(entity => {
+            entity.draw(context)
+        })
+    }
+
+    
 
 }
 
 function main(){ //async?
 
-    const audioContext = new AudioContext()
-    
-    const audioBoard = new AudioBoard(audioContext);
 
-    const loadAudio = createAudioLoader(audioContext);
-    //maybe should load with a single promise with load sprites
-    loadAudio(eatSoundUrl)
-    .then(buffer => {
-        /*console.log(buffer)
-        const source = audioContext.createBufferSource();
-        source.connect(audioContext.destination);
-        source.buffer = buffer;
-        source.start(0)*/
-        audioBoard.addAudio('eat',buffer)
-    })
+    Promise.all([   
+        setUpSound(),
+        loadEntitiesSprites(url),
+        loadImage("images/hammer and sickle.png")
+    ])
+    .then(([audioBoard,Sprites,hammer]) => {
 
-    loadEntitiesSprites(url).then( Sprites => {
+        MYGRID = new Grid(plegma1);
 
-        const sprites = Sprites;
+        let level = new Level(TILESIZE,ROWS,COLS,MYGRID,Sprites,audioBoard);
 
-        const myGrid = new Grid(plegma1);
-        const train = new Train(0,0,tileSize,sprites);
-        const react = new Reactonary(tileSize,sprites);
-        updateGrid(train, myGrid, plegma1);
-        react.pickLocation(rows,cols,myGrid)
-        controllersSetUp(train,canvas,tileSize);
+        const train = new Train(0,0,level);
+        const react = new Reactonary(level);
+        updateGrid(train, MYGRID, plegma1);
+        react.pickLocation(ROWS,COLS,MYGRID);
+
+        let entityCollider = new EntityCollider([train,react])
+
+        controllersSetUp(train,canvas,TILESIZE);
+
+        level.entities.push(train);
+        level.entities.push(react)
 
 
         let update = function update(){
-            train.update(rows,cols)
-            react.update()
-            updateGrid(train, myGrid, plegma1)
-            if(train.eats(react,audioBoard)){
-                react.pickLocation(rows,cols,myGrid)
-            }
-            drawBackground(ctx,cols*tileSize,rows*tileSize,tileSize)
-            react.draw(ctx)
-            train.draw(ctx)
+            level.update()
+            updateGrid(train, MYGRID, plegma1)
+            entityCollider.check(train)
+            /*if(train.eats(react,audioBoard)){
+                react.pickLocation(ROWS,COLS,MYGRID)
+            }*/
+            drawBackground(ctx,COLS*TILESIZE,ROWS*TILESIZE,TILESIZE)
+            level.draw(ctx)
+            gameCtx.drawImage(canvas,0,50);
+            drawScore(train.score,hammer,gameCtx)
+
+            
         }
 
         const timer = new Timer(200);

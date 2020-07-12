@@ -1,13 +1,19 @@
-class Reactonary {
-    constructor(tileSize,sprites){
+class Reactonary extends Entity {
+    constructor(level){
+        super()
         this.pos = new Vec2(0,0); //index
-        this.tileSize = tileSize
+        this.tileSize = level.tileSize
 
-        this.sprites = sprites;
+        this.sprites = level.sprites;
 
         this.frames = new Animation([CAPITALIST,CAPITALIST2],3);
         this.frameSteps=0; //never zero again
+
+        this.addTrait(new Killable())
+
     }
+
+
 
     pickLocation(stageRows, stageCols,grid){
         //must not collide with train
@@ -27,10 +33,16 @@ class Reactonary {
     }
 
     update(){
+        super.update()
         this.frameSteps++;
     }
 
     chooseFrame(steps){
+    if (this.killable.dead){
+        console.log("dead")
+        return DEAD_CAPITALIST;
+    }
+
         return this.frames.resolveFrame(steps);
     }
 
@@ -40,6 +52,17 @@ class Reactonary {
             ctx,
             this.pos.x*this.tileSize,this.pos.y*this.tileSize,
             this.tileSize,this.tileSize);
+    }
+
+    collides(entity){
+        //console.log(" Reactonarie collided with "+entity.constructor.name)
+        console.log(" Train collided with "+ entity.constructor.name)
+        if ( entity instanceof Train ) {
+            //got eated
+            this['killable'].killed();
+            //this.pickLocation(ROWS,COLS,MYGRID)
+        }
+        
     }
 
 }
