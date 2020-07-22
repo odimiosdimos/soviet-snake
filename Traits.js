@@ -17,7 +17,6 @@ class Killable extends Trait {
     }
 
     update(entity){
-        console.log('is '+entity.constructor.name + " dead? "+this.dead)
     }
 
     killed(){

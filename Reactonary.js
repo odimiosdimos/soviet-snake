@@ -1,6 +1,7 @@
 class Reactonary extends Entity {
     constructor(level){
         super()
+        this.level = level
         this.pos = new Vec2(0,0); //index
         this.tileSize = level.tileSize
 
@@ -60,7 +61,9 @@ class Reactonary extends Entity {
         if ( entity instanceof Train ) {
             //got eated
             this['killable'].killed();
-            //this.pickLocation(ROWS,COLS,MYGRID)
+            console.log(this.level.entities)
+            this.pickLocation(ROWS,COLS,MYGRID)
+            this['killable'].dead = false;
         }
         
     }

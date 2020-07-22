@@ -142,6 +142,7 @@ class Train extends Entity {
             if (this.pos.x === this.tail[i].x && this.pos.y === this.tail[i].y ){
                 this.tail.length=1;
                 this.score=0;
+                
             }
         }
     }
