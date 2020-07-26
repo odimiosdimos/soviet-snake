@@ -80,12 +80,12 @@ function setUpSound(){
     const loadAudio = createAudioLoader(audioContext);
 
     return Promise.all([
-        loadAudio(eatSoundUrl), 
+        //loadAudio(eatSoundUrl), 
         loadAudio(turnSoundUrl),
         loadAudio('/audio/train_boom.mp3'),
         ])
-    .then(([eat,turn,eat_]) => {
-        audioBoard.addAudio('eat',eat)
+    .then(([/*eat*/,turn,eat_]) => {
+        //audioBoard.addAudio('eat',eat)
         audioBoard.addAudio('turn',turn)
         audioBoard.addAudio('eat_',eat_)
 
