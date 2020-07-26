@@ -11,17 +11,21 @@ class Level {
 
     }
 
+    addEntity(entity){
+        this.entities.push(entity)
+    }
+
     update(){
-        this.updateEntities()
+        this.updateEntities(this)
     }
 
     draw(context){
         this.drawEntities(context)
     }
 
-    updateEntities(){
+    updateEntities(level){
         this.entities.forEach(entity => {
-            entity.update()
+            entity.update(level)
         })
 
     }

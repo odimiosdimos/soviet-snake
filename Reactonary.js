@@ -33,14 +33,13 @@ class Reactonary extends Entity {
     
     }
 
-    update(){
-        super.update()
+    update(level){
+        super.update(level)
         this.frameSteps++;
     }
 
     chooseFrame(steps){
     if (this.killable.dead){
-        console.log("dead")
         return DEAD_CAPITALIST;
     }
 
@@ -56,14 +55,14 @@ class Reactonary extends Entity {
     }
 
     collides(entity){
-        //console.log(" Reactonarie collided with "+entity.constructor.name)
-        console.log(" Train collided with "+ entity.constructor.name)
-        if ( entity instanceof Train ) {
+        //console.log(" Train collided with "+ entity.constructor.name)
+        if ( entity instanceof Train && !this.killable.dead ) {
             //got eated
             this['killable'].killed();
-            console.log(this.level.entities)
-            this.pickLocation(ROWS,COLS,MYGRID)
-            this['killable'].dead = false;
+            const newR = new Reactonary(this.level)
+            newR.pickLocation(ROWS,COLS,MYGRID)
+            this.level.addEntity(newR)
+
         }
         
     }

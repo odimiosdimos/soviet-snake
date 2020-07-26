@@ -41,8 +41,6 @@ const CAPITALIST2 = value();
 
 const DEAD_CAPITALIST = value()
 
-console.log("C" + CAPITALIST2);
-console.log("C" + CAPITALIST);
 
 
 

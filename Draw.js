@@ -1,14 +1,17 @@
 function drawBackground(ctx,w,h,tileSize){
-    ctx.fillStyle = "rgb(147, 245, 66)";
+    ctx.fillStyle = "rgb(145, 168, 138)";
     ctx.fillRect(0,0,w,h)
     for (let indexY=0;indexY<ROWS;indexY++){
         for (let indexX=0;indexX<COLS;indexX++){
             if ( (indexX+indexY)%2 != 0){
-                ctx.fillStyle = "rgb(89, 179, 0)"
+                ctx.fillStyle = "rgb(128, 128, 128)"
                 ctx.fillRect(indexX*tileSize,indexY*tileSize,tileSize,tileSize)
             }
         } 
     }
+
+    
+
 }
 
 const scoreBuffer = document.createElement('canvas');
@@ -28,5 +31,22 @@ function drawScore(score,img, context){
     scoreBufferCtx.fillText(text, 10, 30);
     scoreBufferCtx.drawImage(img,scoreBuffer.width-20-32,5,32,32)
 
-    context.drawImage(scoreBuffer,0,0)
+    context.drawImage(scoreBuffer,80,85)
+}
+
+function drawBorder(ctx){
+    ctx.beginPath();
+    ctx.strokeStyle="black"
+    ctx.lineWidth = "10";
+    ctx.rect(80,140,320,320);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.lineWidth = "1";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "black";
+    ctx.stroke();
+
+
+
 }

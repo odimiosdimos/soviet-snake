@@ -11,23 +11,52 @@
         body {
             margin:0;
         }
+        .fonto{
+            position: absolute;
+            top:0px;
+            left:0px;
+
+        }
+        #startButton{
+            position: absolute;
+            top:250px;
+            left:300px;
+            font-size: 35px;
+            background-color:rgb(153, 153, 153);
+            box-shadow: 5px 6px;
+            border: 2px solid black;
+            border-radius: 3px;
+            
+
+        }
+        #startButton:hover{
+            background-color:rgb(134, 119, 119);
+        }
+        
     </style>
 </head>
 
 <body>
 
-    <canvas id = "gameCanvas"></canvas>
+   
+<div id="menu">
+    <img class="fonto" src="images/fonto.png" >
+</div>
 
-    
+<button  type="button" id="startButton">Start</button>
+
 
 </body>
+
+<script src="consts.js"></script>
+
+<script src="menuDraw.js"></script>
 
 <script src="Level.js"></script>
 
 <script src="Traits.js"></script>
 <script src="Entity.js"></script>
 
-<script src="consts.js"></script>
 
 <script src="audio.js"></script>
 <script src="AudioBoard.js"></script>

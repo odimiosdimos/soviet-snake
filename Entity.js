@@ -3,9 +3,9 @@ class Entity {
         this.traits = []
     }
 
-    update(){
+    update(level){
         this.traits.forEach(trait => {
-            trait.update(this)
+            trait.update(this,level)
         })
     }
 

@@ -1,12 +1,12 @@
 class EntityCollider {
 
-    constructor(entities){
-        this.entities = entities;
+    constructor(level){
+        this.level = level;
 
     }
 
     check(subject){
-        this.entities.forEach( entity => {
+        this.level.entities.forEach( entity => {
             
 
             if (subject.pos.equals(entity.pos)){

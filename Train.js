@@ -44,8 +44,8 @@ class Train extends Entity {
     }
 
 
-    update(){
-        super.update()
+    update(level){
+        super.update(level)
         if (this.speedToBeAssignted.length>0){
             let dir  = this.speedToBeAssignted.pop()
 
@@ -110,6 +110,7 @@ class Train extends Entity {
                 this.tileSize,this.tileSize)
                 ctx.strokeStyle="red"
                 ctx.beginPath();
+                ctx.lineWidth = "2";
                 ctx.rect(this.tail[i].x*this.tileSize,
                     this.tail[i].y*this.tileSize,
                     this.tileSize,this.tileSize);
@@ -130,7 +131,7 @@ class Train extends Entity {
 
 
     collides(entity){
-        console.log(" Train collided with "+ entity.constructor.name)
+        //console.log(" Train collided with "+ entity.constructor.name)
         if ( entity instanceof Reactonary && !entity.killable.dead ) {
             this.eats(entity);
             this.score += 100;
