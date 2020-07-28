@@ -2,6 +2,7 @@ class Train extends Entity {
 
     constructor(x,y,level){
         super()
+        this.level = level;
         this.audioBoard = level.audioBoard;
         this.sprites = level.sprites;
         this.pos = new Vec2(x,y); //index
@@ -45,6 +46,7 @@ class Train extends Entity {
 
 
     update(level){
+        console.log(level)
         super.update(level)
         if (this.speedToBeAssignted.length>0){
             let dir  = this.speedToBeAssignted.pop()
@@ -141,8 +143,10 @@ class Train extends Entity {
     selfCollision(){
         for (let i = 3;i<this.tail.length;i++){
             if (this.pos.x === this.tail[i].x && this.pos.y === this.tail[i].y ){
+                console.log(this.level);
                 this.tail.length=1;
                 this.score=0;
+
                 
             }
         }

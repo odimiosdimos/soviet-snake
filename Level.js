@@ -9,6 +9,8 @@ class Level {
         this.sprites = sprites;
         this.audioBoard = audioBoard;
 
+        this.endGame=false;
+
     }
 
     addEntity(entity){

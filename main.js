@@ -13,6 +13,25 @@ playCanvas.width = 320
 playCanvas.height = 320
 playCanvas.style.backgroundColor = "lightblue";
 
+const fonto = document.getElementsByClassName('fonto')[0];
+
+const startButton = document.getElementById('startButton');
+
+console.log(fonto);
+
+console.log(startButton);
+
+if (!fonto.complete){
+    startButton.addEventListener('load', () => {
+        startButton.style.visibility = "visible"
+        console.log('loaded')
+    })
+    
+} else {
+    startButton.style.visibility = "visible"
+}
+
+
 document.getElementById("startButton").addEventListener('click',function ()
     {
      startGame(playCtx)
@@ -74,7 +93,9 @@ document.getElementById("startButton").addEventListener('click',function ()
                 drawScore(train.score,hammer,ctx)
 
                 ctx.drawImage(playCanvas,80,140)
-    
+
+                timer.stop = level.endGame;
+                
                 
             }
     

@@ -2,6 +2,7 @@
 
 class Timer{
     constructor(deltaTime){
+        this.stop = false;
         let dt = 0;
         let lastTime = 0;
 
@@ -13,7 +14,9 @@ class Timer{
                 this.update()
                 lastTime=time;
             }
-            requestAnimationFrame(this.updateProxy)
+            if (!this.stop){
+                requestAnimationFrame(this.updateProxy)
+            }
         
         }
 
